@@ -1,5 +1,3 @@
-// Language configuration for the typing game
-
 export type LanguageStrings = {
   // Game title and UI
   gameTitle: string

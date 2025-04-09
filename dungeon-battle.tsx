@@ -45,8 +45,9 @@ export default function TypingDungeonBattle() {
 
   // Handle level selection
   const selectLevel = (level: LevelConfig) => {
-    setCurrentLevel(level)
-    setShowLevelSelect(false)
+      setCurrentLevel(level)
+      resetGame() // 重置游戏状态
+      setShowLevelSelect(false) // 隐藏关卡选择界面
   }
 
   // Handle language change

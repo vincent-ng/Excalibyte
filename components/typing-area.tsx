@@ -4,6 +4,7 @@ import type React from "react"
 
 import { useRef, useEffect, useState } from "react"
 import { VirtualKeyboard } from "./virtual-keyboard"
+import { useKeyboardInput } from "../hooks/use-keyboard-input"
 
 type TypingAreaProps = {
   text: string
@@ -15,17 +16,16 @@ type TypingAreaProps = {
 }
 
 export function TypingArea({ text, currentPosition, isComposing, setIsComposing, handleInput, t }: TypingAreaProps) {
-  const inputRef = useRef<HTMLInputElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const textContainerRef = useRef<HTMLDivElement>(null)
   const [offset, setOffset] = useState(0)
 
-  // Focus the input field when the component mounts
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus()
-    }
-  }, [])
+  // 使用自定义Hook处理键盘输入
+  const { inputElement } = useKeyboardInput({
+    onInput: handleInput,
+    autoFocus: true,
+    preventBlur: true,
+  })
 
   // Calculate the offset to center the current character
   useEffect(() => {
@@ -89,21 +89,8 @@ export function TypingArea({ text, currentPosition, isComposing, setIsComposing,
         <div className="absolute top-0 right-0 h-full w-16 bg-gradient-to-l from-gray-800 to-transparent pointer-events-none"></div>
       </div>
 
-      <input
-        ref={inputRef}
-        type="text"
-        className="opacity-0 absolute -z-10"
-        onChange={handleInput}
-        onCompositionStart={() => setIsComposing(true)}
-        onCompositionEnd={() => setIsComposing(false)}
-        autoCapitalize="off"
-        autoComplete="off"
-        autoCorrect="off"
-        spellCheck="false"
-        onBlur={(e) => {
-          setTimeout(() => inputRef.current?.focus(), 10);
-        }}
-      />
+      {/* 使用自定义Hook提供的输入元素 */}
+      {inputElement}
 
       <VirtualKeyboard nextChar={getNextChar()} t={t} />
     </div>

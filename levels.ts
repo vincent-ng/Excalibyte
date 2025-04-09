@@ -1,5 +1,3 @@
-// Level configurations for the typing game
-
 export type LevelConfig = {
   id: string
   categoryId: string

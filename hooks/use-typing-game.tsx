@@ -76,14 +76,7 @@ export function useTypingGame(
 
       // 获取最新输入的字符（处理多字符粘贴情况）
       const typedChar = inputValue.slice(-1)
-
-      // 立即清空输入框（关键！）
-      e.target.value = ""
-
       const expectedChar = text[currentPosition]
-
-      // Only count non-modifier keys for keystrokes
-      // setTotalKeystrokes((prev) => prev + 1)
 
       // Check if the typed character matches the expected character
       if (typedChar === expectedChar) {
